@@ -56,9 +56,22 @@ npm_mirror: https://npm.taobao.org/mirrors/npm/
 ```
 
 ### 模块
-
-**electron**
+**cnpm**
+国内使用cnpm是一个比较方便的选择，安装方法如下
+```
+> npm install cnpm -g --registry=https://registry.npm.taobao.org
+```
 **yarn**
+使用npm安装
+```
+> cnpm install -g yarn
+```
+使用淘宝镜像
+```
+> yarn config set registry https://registry.npm.taobao.org --global
+> yarn config set disturl https://npm.taobao.org/dist --global
+```
+**electron**
 **vue-cli**
 **electron-vue**
 **坑 1-1 运行electron时出现`ReferenceError`**
@@ -86,6 +99,31 @@ npm_mirror: https://npm.taobao.org/mirrors/npm/
 ```
 yarn add ant-design-vue
 ```
+使用[官网](https://www.antdv.com/docs/vue/introduce-cn/)推荐的babel引入方式
+```js
+// .babelrc or babel-loader option
+{
+  "plugins": [
+    ["import", { "libraryName": "ant-design-vue", "libraryDirectory": "es", "style": "css" }] // `style: true` 会加载 less 文件
+  ]
+}
+```
+坑1-2 `cnpm run dev`时出现错误`ReferenceError: Unknown plugin "***"`
+安装`babel-plugin-***`即可
+```
+> cnpm install babel-plugin-import -D
+```
+坑1-3 运行electron出现
+```
+┏ Electron -------------------
+
+  Failed to fetch extension, trying 4 more times
+
+┗ ----------------------------
+...
+```
+实际上是网络问题，第一次运行时会下载vue tool插件，使用科学的方法之后可√，无视也可。
+
 ### Winpcap的配置
 
 ## 项目实现
