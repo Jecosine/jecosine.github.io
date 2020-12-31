@@ -1,4 +1,9 @@
 ---
 title: vue-webpack-import-antd
-tags:
+categories:
+- front-end
+tags: 
+- vue
+- antd
 ---
+

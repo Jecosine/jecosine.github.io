@@ -1,5 +1,8 @@
 ---
 title: online-book-management-requirements
+categories:
+- project
+- go
 tags:
 ---
 
