@@ -29,5 +29,32 @@ obm-back-end
 | `routes`     | 路由           |
 | `runtime`    | 运行时存放数据 |
 
+## 添加项目配置
 
+拉取`go-ini/ini`依赖
+
+```shell
+> go get -u github.com/go-ini/ini
+go: downloading github.com/go-ini/ini v1.62.0
+go: github.com/go-ini/ini upgrade => v1.62.0
+```
+
+创建`config/app.ini`
+
+```ini
+RUN_MODE = debug
+
+[app]
+NAME = My Online Book Manager
+
+[server]
+HTTP_PORT = 8888
+
+[database]
+TYPE = mysql
+USER = obm
+PASSWORD = your-password
+HOST = localhost:port
+NAME = obm
+```
 
