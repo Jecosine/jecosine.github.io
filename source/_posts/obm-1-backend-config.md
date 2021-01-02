@@ -53,6 +53,51 @@ func main() {
 
 项目目录下会生成`go.mod`文件
 
+## 安装Gin
+
+````shell
+go get -u github.com/gin-gonic/gin
+````
+
+等待其安装即可
+
+```shell
+go: downloading golang.org/x/sys v0.0.0-20200323222414-85ca7c5b95cd
+go: github.com/golang/protobuf upgrade => v1.4.3
+go: gopkg.in/yaml.v2 upgrade => v2.4.0
+go: golang.org/x/sys upgrade => v0.0.0-20201231184435-2d18734c6014
+go: github.com/modern-go/reflect2 upgrade => v1.0.1
+go: github.com/leodido/go-urn upgrade => v1.2.1
+go: github.com/go-playground/validator/v10 upgrade => v10.4.1
+go: github.com/json-iterator/go upgrade => v1.1.10
+go: github.com/ugorji/go/codec upgrade => v1.2.2
+go: github.com/modern-go/concurrent upgrade => v0.0.0-20180306012644-bacd9c7ef1dd
+go: downloading golang.org/x/sys v0.0.0-20201231184435-2d18734c6014
+go: google.golang.org/protobuf upgrade => v1.25.0
+go: golang.org/x/crypto upgrade => v0.0.0-20201221181555-eec23a3978ad
+```
+
+`go.mod`中会多出以下配置
+
+```
+require (
+	github.com/gin-gonic/gin v1.6.3
+	github.com/go-playground/validator/v10 v10.4.1 // indirect
+	github.com/go-sql-driver/mysql v1.5.0 // indirect
+	github.com/golang/protobuf v1.4.3 // indirect
+	github.com/jinzhu/gorm v1.9.16
+	github.com/json-iterator/go v1.1.10 // indirect
+	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
+	github.com/modern-go/reflect2 v1.0.1 // indirect
+	github.com/ugorji/go v1.2.2 // indirect
+	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad // indirect
+	golang.org/x/sys v0.0.0-20201231184435-2d18734c6014 // indirect
+	google.golang.org/protobuf v1.25.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
+)
+```
+
 ## 添加项目配置
 
 ​		一般在项目中, 将配置数据写入程序中是不优雅不灵活的实现, 同时, 这对需要部署你项目的其他用户并不友好. 在这种情况下我们可以使用配置文件, 存放用户环境的数据, 在项目中获取配置的值. 
