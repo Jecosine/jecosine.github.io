@@ -110,3 +110,9 @@ deploy:
   type: git
   repository: git@106.53.77.57:/var/repo/hexosite.git
   branch: master
+
+mermaid: ## mermaid url https://github.com/knsv/mermaid
+  enable: true  # default true
+  version: "7.1.2" # default v7.1.2
+  options:  # find more api options from https://github.com/knsv/mermaid/blob/master/src/mermaidAPI.js
+    #startOnload: true  // default true

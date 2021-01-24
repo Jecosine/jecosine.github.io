@@ -36,6 +36,70 @@ tags:
 | `category`  | 分类,  树状结构, 有父级关系                               |
 | `tag`       | 标签, 用于区分书的系列 ( 大概 )                           |
 
+### 用户实体 `user`
+
+Mysql 语句: 
+
+```sql
+create table obm_user
+(
+    id           char(15)                           not null comment 'unique id of user',
+    username     varchar(20)                        not null comment 'custom username',
+    password     char(32)                           not null comment 'user password, encrypted',
+    avatar       varchar(128)                       null comment 'url of avatar',
+    deletedTime  datetime                           null comment 'user delete time',
+    createdTime  datetime default CURRENT_TIMESTAMP not null,
+    salt         varchar(32)                        null,
+    modifiedTime datetime                           null,
+    constraint obm_user_id_uindex
+        unique (id)
+);
+
+alter table obm_user
+    add primary key (id);
+```
+
+### 文件实体 `file`
+
+Mysql 语句: 
+
+
+
+| Field Name | Type    | Description      |
+| ---------- | ------- | ---------------- |
+| id         | char    | file id          |
+| name       | varchar | file name        |
+| author     | varchar | file author name |
+| uploader   | varchar | uploader name    |
+| type       | char    | file type id     |
+| category   | char    | category id      |
+
+### 分类实体 `Category`
+
+Mysql 语句: 
+
+```sql
+create table obm_category
+(
+	id char(15) not null comment 'id of category',
+	name varchar(20) not null comment 'category name (5 - 20 characters)',
+	createdTime datetime default NOW() not null comment 'created time of category',
+	modifiedTime datetime null comment 'modified time of category',
+	deletedTime datetime null comment 'deleted time of category',
+	createBy char(15) null comment 'category creator'
+);
+
+create unique index obm_category_id_uindex
+	on obm_category (id);
+
+alter table obm_category
+	add constraint obm_category_pk
+		primary key (id);
+
+```
+
+
+
 
 
 ## 路由设计
@@ -178,39 +242,4 @@ tags:
 
 
 - `/v1/user/get/{userid}`
-
-`user`
-
-```sql
-create table obm_user
-(
-    id           char(15)                           not null comment 'unique id of user',
-    username     varchar(20)                        not null comment 'custom username',
-    password     char(32)                           not null comment 'user password, encrypted',
-    avatar       varchar(128)                       null comment 'url of avatar',
-    deletedTime  datetime                           null comment 'user delete time',
-    createdTime  datetime default CURRENT_TIMESTAMP not null,
-    salt         varchar(32)                        null,
-    modifiedTime datetime                           null,
-    constraint obm_user_id_uindex
-        unique (id)
-);
-
-alter table obm_user
-    add primary key (id);
-```
-
-`book`
-
-| Field Name | Type    | Description      |
-| ---------- | ------- | ---------------- |
-| id         | char    | book id          |
-| name       | varchar | book name        |
-| author     | varchar | book author name |
-| uploader   | varchar | uploader name    |
-| type       | char    | book type id     |
-| category   | char    | category id      |
-
-
-`collection`
 

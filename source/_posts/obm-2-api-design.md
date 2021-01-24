@@ -192,3 +192,98 @@ HTTP_PORT: 8888
 [GIN-debug] POST   /api/v1/user/add/:id      --> github.com/Jecosine/obm-back-end/routes/api/v1.AddUser (3 handlers)
 ```
 
+可能有的读者不太清楚请求的流程，下面的图演示了用户请求的处理流程
+
+```mermaid
+graph TB
+R([Request])
+A[routes]
+B[models]
+C[[Database]]
+R --"/api/vi/user/get/:id"--> A
+A --"GetUser()"--> B
+B --"db.Where()"--> C
+```
+
+现在我们先编写和数据库交互的`models`
+
+`models/user.go`
+
+```go
+package models
+
+import (
+	"log"
+	"time"
+
+	"github.com/jinzhu/gorm"
+)
+
+type User struct {
+	Model
+
+	ID       string `gorm:"primary_key" json:"id"`
+	Username string `gorm:"column:username" json:"username"`
+	Password string `json:"password"`
+	Avatar   string `json:"avatar"`
+	Email    string `json:"email"`
+}
+
+// set create time before insertion
+func (user *User) BeforeCreate(scope *gorm.Scope) error {
+	log.Println("[INFO] Really run? %s", time.Now().Format("2006-01-02 15:04:05"))
+	scope.SetColumn("CreatedTime", time.Now().Unix())
+	return nil
+}
+
+// set modified time before update
+func (user *User) BeforeUpdate(scope *gorm.Scope) error {
+	// scope.SetColumn("ModifiedTime", time.Now().Format("2006-01-02 15:04:05"))
+	scope.SetColumn("ModifiedTime", time.Now().Unix())
+	return nil
+}
+func ExistUserById(id string) bool {
+	var user User
+	db.Select("id").Where("id=?", id).First(&user)
+	if len(user.ID) != 0 {
+		return true
+	}
+	return false
+}
+
+// GetUsers Get users from database
+func GetUsers() {
+
+}
+
+// GetUser Get single user by specified id
+func GetUser(id string) (user User) {
+	db.Where("id=?", id).First(&user)
+	log.Printf("[INFO] In '/model/user.go': user id %s", user.ID)
+	log.Printf("[INFO] In '/model/user.go': user name %s", user.Username)
+	log.Printf("[INFO] In '/model/user.go': user password %s", user.Password)
+	return user
+}
+
+func AddUser(user User) bool {
+	log.Printf("[INFO] In '/model/user.go': user id %s", user.ID)
+	log.Printf("[INFO] In '/model/user.go': user name %s", user.Username)
+	log.Printf("[INFO] In '/model/user.go': user password %s", user.Password)
+	db.Create(&user)
+	return true
+}
+
+// EditUser edit user
+func EditUser(id string, data interface{}) bool {
+	db.Model(&User{}).Where("id=?", id).Updates(data)
+	return true
+}
+
+// DeleteUser delete user
+func DeleteUser(id string) bool {
+	db.Where("id=?", id).Delete(User{})
+	return true
+}
+
+```
+
